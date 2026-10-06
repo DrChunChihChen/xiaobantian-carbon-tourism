@@ -575,7 +575,7 @@ html_content = f'''<!DOCTYPE html>
             小半天生態行旅 ✕ 碳導遊小綠 影音導覽專區
           </h2>
           <p class="text-slate-300 text-xs sm:text-sm mt-1.5">
-            國立臺中科技大學 URR團隊 子計畫H 打造 · Python 向量逐格動畫 ✕ 雙導遊專業導覽
+            國立臺中科技大學 USR團隊 子計畫H 打造 · Python 向量逐格動畫 ✕ 雙導遊專業導覽
           </p>
         </div>
         
@@ -1382,7 +1382,7 @@ html_content = f'''<!DOCTYPE html>
       <span>永續低碳漫遊手冊</span>
     </div>
     <p>依循交通部觀光署 113 年《旅行業遊程碳足跡計算指引》與環境部 114 年度電力排放係數 (0.466 kg CO2e/度) 規範製作</p>
-    <p class="text-slate-400">© 2026 國立台中科技大學 URR團隊企劃作品 · 100% 內嵌向量離線相容</p>
+    <p class="text-slate-400">© 2026 國立台中科技大學 USR團隊企劃作品</p>
   </footer>
 
   <!-- 試算器邏輯 JavaScript -->
