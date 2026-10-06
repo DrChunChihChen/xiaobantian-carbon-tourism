@@ -1,0 +1,48 @@
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+env/
+
+# Scratch & Intermediate Audio/Video generation folders
+tts_*
+tmp_*
+*.wav
+*.log
+of1/
+of2/
+of3/
+of4/
+of5/
+of6/
+cf1/
+cf2/
+cf3/
+cf4/
+cf5/
+cf6/
+cf7/
+cf8/
+xbt1/
+xbt2/
+xbt3/
+xbt4/
+xbt5/
+xbt6/
+mt1/
+example_ds2/
+
+# Ignore duplicate root MP4 files (all curated videos are tracked in videos/)
+/*.mp4
+test_screen.png
+screenshots/_tmp_*
+_to_delete/
+chk/
+ep8/
