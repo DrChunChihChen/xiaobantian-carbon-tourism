@@ -1186,11 +1186,11 @@ html_content = f'''<!DOCTYPE html>
                 </tr>
                 <tr class="bg-slate-50">
                   <td class="p-3 font-bold text-slate-800">④ 遊憩體驗</td>
-                  <td class="p-3">購買外來市售塑膠紀念品<br><span class="text-[10px] text-slate-400">進口塑膠射出成型材料</span></td>
+                  <td class="p-3">走馬看花購買紀念品<br><span class="text-[10px] text-slate-400">進口塑膠射出小吊飾</span></td>
                   <td class="p-3 text-center font-bold text-red-700">0.5 kg</td>
-                  <td class="p-3">孟宗竹藝 DIY 體驗<br><span class="text-[10px] text-slate-400">天然竹材切削手工藝品，以竹代塑</span></td>
+                  <td class="p-3">升級 2小時竹藝工坊深度手作<br><span class="text-[10px] text-emerald-700 font-semibold">以竹代塑長期固碳 + 收益留地方</span></td>
                   <td class="p-3 text-center font-bold text-amber-700">0.8 kg</td>
-                  <td class="p-3 text-center font-bold text-amber-600">+0.3 kg<br><span class="text-[10px]">促進在地循環固碳</span></td>
+                  <td class="p-3 text-center font-bold text-amber-600">+0.3 kg<br><span class="text-[10px]">體驗深化 / 機具電力</span></td>
                 </tr>
                 <tr>
                   <td class="p-3 font-bold text-slate-800">⑤ 門市據點</td>
@@ -1208,6 +1208,21 @@ html_content = f'''<!DOCTYPE html>
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <!-- 小綠專家解惑卡片 (解除視覺錯置) -->
+          <div class="bg-emerald-50/90 border-2 border-emerald-300 rounded-2xl p-4 sm:p-5 flex items-start space-x-3 text-xs leading-relaxed text-slate-700">
+            <span class="text-2xl shrink-0 mt-0.5">💡</span>
+            <div class="space-y-1">
+              <div class="font-bold text-emerald-900 text-sm flex items-center space-x-2">
+                <span>小綠專家解析：【為何第④項遊憩體驗數值微增 0.3 kg？】</span>
+                <span class="bg-emerald-200 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-black">真實盤查不漂綠</span>
+              </div>
+              <p>
+                在傳統遊程中，旅客只是路過購買一個幾十克的廉價塑膠小吊飾；而小半天低碳遊程將活動<strong>升級為扎實的「2小時在地竹藝深度手作工坊」</strong>！
+                雖然因工坊打磨機具電力使活動碳排略增 <strong>+0.3 kg</strong>，但天然孟宗竹器具備<strong>長期生質固碳與替代塑膠</strong>效益，且觀光收益 100% 留在地方社區。在體驗大幅升級的同時，全團人均碳排依然實質大降 <strong>-65.4%（省下 31.8 kg CO₂e）</strong>！
+              </p>
+            </div>
           </div>
 
           <div class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-5 space-y-2">

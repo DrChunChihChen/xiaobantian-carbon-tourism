@@ -97,67 +97,109 @@ def draw_carbon_comparison(output_path="carbon_comparison.png"):
     fillstroke(ctx, C['white'], stroke=C['navy'], lw=3.5)
     rrect(ctx, 40, 120, 360, 52, 24)
     fillstroke(ctx, C['navy'], stroke=C['navy'], lw=3.5)
-    text(ctx, "遊程人均碳排放總量對比", 220, 148, 18, C['white'], bold=True)
+def draw_carbon_comparison(output_path="carbon_comparison.png"):
+    surf = cairo.ImageSurface(cairo.FORMAT_RGB24, W, H)
+    ctx = cairo.Context(surf)
+    ctx.set_source_rgb(0.98, 0.97, 0.94); ctx.paint()
+
+    # 頂部標題區
+    rrect(ctx, 40, 25, 1200, 75, 20)
+    fillstroke(ctx, (0.22, 0.52, 0.48), stroke=C['navy'], lw=4)
+    text(ctx, "【實測數據清冊】小半天兩天一夜遊程 碳盤查與減量實測明細", 640, 52, 25, C['white'], bold=True)
+    text(ctx, "依循交通部觀光署《旅行業遊程碳足跡計算指引》與 114 最新電力係數 (0.466 kg CO2e/度)", 640, 78, 13, (0.85, 0.95, 0.90), bold=False)
+
+    # 左側：總量柱狀對比
+    rrect(ctx, 40, 115, 360, 575, 24)
+    fillstroke(ctx, C['white'], stroke=C['navy'], lw=3.5)
+    rrect(ctx, 40, 115, 360, 48, 24)
+    fillstroke(ctx, (0.85, 0.45, 0.25), stroke=C['navy'], lw=3.5)
+    text(ctx, "遊程人均碳排放總量對比", 220, 140, 18, C['white'], bold=True)
 
     # 傳統遊程柱狀 (48.6 kg)
-    rrect(ctx, 90, 210, 100, 360, 16)
+    rrect(ctx, 90, 195, 100, 375, 16)
     fillstroke(ctx, (0.88, 0.35, 0.35), stroke=C['navy'], lw=3)
-    text(ctx, "48.6", 140, 245, 24, C['white'], bold=True)
-    text(ctx, "kg", 140, 275, 16, C['white'], bold=True)
+    text(ctx, "48.6", 140, 230, 24, C['white'], bold=True)
+    text(ctx, "kg", 140, 260, 16, C['white'], bold=True)
     text(ctx, "傳統自駕遊", 140, 595, 16, (0.88, 0.35, 0.35), bold=True)
 
     # 低碳遊程柱狀 (16.8 kg)
-    bar_h = 360 * (16.8 / 48.6)
-    rrect(ctx, 230, 210 + (360 - bar_h), 100, bar_h, 16)
+    bar_h = 375 * (16.8 / 48.6)
+    rrect(ctx, 230, 195 + (375 - bar_h), 100, bar_h, 16)
     fillstroke(ctx, (0.24, 0.64, 0.40), stroke=C['navy'], lw=3)
-    text(ctx, "16.8", 280, 210 + (360 - bar_h) + 35, 24, C['white'], bold=True)
-    text(ctx, "kg", 280, 210 + (360 - bar_h) + 65, 16, C['white'], bold=True)
+    text(ctx, "16.8", 280, 195 + (375 - bar_h) + 35, 24, C['white'], bold=True)
+    text(ctx, "kg", 280, 195 + (375 - bar_h) + 65, 16, C['white'], bold=True)
     text(ctx, "小半天低碳遊", 280, 595, 16, (0.24, 0.64, 0.40), bold=True)
 
     # 減碳減量幅度徽章
-    rrect(ctx, 90, 625, 240, 42, 21)
+    rrect(ctx, 90, 625, 240, 45, 22)
     fillstroke(ctx, (0.98, 0.85, 0.30), stroke=C['navy'], lw=3)
-    text(ctx, "實質減碳達 -65.4%", 210, 648, 18, C['navy'], bold=True)
+    text(ctx, "實質減碳達 -65.4%", 210, 649, 18, C['navy'], bold=True)
 
     # 右側：五大服務構面明細表格與進度條
-    rrect(ctx, 425, 120, 815, 560, 24)
+    rrect(ctx, 425, 115, 815, 575, 24)
     fillstroke(ctx, C['white'], stroke=C['navy'], lw=3.5)
-    rrect(ctx, 425, 120, 815, 52, 24)
+    rrect(ctx, 425, 115, 815, 48, 24)
     fillstroke(ctx, (0.22, 0.56, 0.52), stroke=C['navy'], lw=3.5)
-    text(ctx, "交通部觀光署五大服務構面明細清冊 (依 114 最新係數試算)", 832, 148, 18, C['white'], bold=True)
+    text(ctx, "交通部觀光署五大服務構面明細清冊 (依 114 最新係數試算)", 832, 140, 18, C['white'], bold=True)
 
     items = [
-        ("① 交通運輸服務", "自駕小客車 240km 改搭 台灣好行大巴+低碳接駁", "28.5 kg", "9.6 kg", "-66.3%", (0.25, 0.55, 0.78), 28.5, 9.6),
-        ("② 餐飲美食服務", "傳統多肉豪華合菜 改選 在地時令竹筍蔬食風味餐", "14.2 kg", "3.8 kg", "-73.2%", (0.85, 0.55, 0.25), 14.2, 3.8),
-        ("③ 住宿旅館服務", "一般飯店+拋棄式備品 改住 環保標章民宿+自備毛巾牙刷", "5.2 kg", "2.4 kg", "-53.8%", (0.45, 0.35, 0.65), 5.2, 2.4),
-        ("④ 遊憩體驗服務", "市售塑膠外來紀念品 改為 孟宗竹工藝 DIY (以竹代塑天然固碳)", "0.5 kg", "0.8 kg", "以竹代塑", (0.24, 0.56, 0.35), 0.5, 0.8),
-        ("⑤ 門市與廢棄物", "紙本手冊+瓶裝水垃圾 改為 數位微手冊+自備保溫瓶 0 廢棄", "0.2 kg", "0.2 kg", "源頭減量", (0.40, 0.45, 0.50), 0.2, 0.2),
+        ("① 交通運輸服務", "自駕小客車 240km 改搭 台灣好行大巴+低碳接駁", "28.5 kg", "9.6 kg", "-66.3%", (0.25, 0.55, 0.78), 28.5, 9.6, False),
+        ("② 餐飲美食服務", "傳統多肉豪華合菜 改選 在地時令竹筍蔬食風味餐", "14.2 kg", "3.8 kg", "-73.2%", (0.85, 0.55, 0.25), 14.2, 3.8, False),
+        ("③ 住宿旅館服務", "一般飯店+拋棄式備品 改住 環保標章民宿+自備毛巾牙刷", "5.2 kg", "2.4 kg", "-53.8%", (0.45, 0.35, 0.65), 5.2, 2.4, False),
+        ("④ 遊憩體驗服務", "走馬看花購買紀念品 升級 2小時在地竹藝深度工坊", "0.5 kg", "0.8 kg", "體驗深化+0.3kg", (0.24, 0.56, 0.35), 0.5, 0.8, True),
+        ("⑤ 門市與廢棄物", "紙本手冊+瓶裝水垃圾 改為 數位微手冊+自備保溫瓶", "0.2 kg", "0.2 kg", "源頭零廢棄", (0.40, 0.45, 0.50), 0.2, 0.2, False),
     ]
 
-    for idx, (cat, desc, c_base, c_low, rate, col, v_base, v_low) in enumerate(items):
-        y = 205 + idx * 95
+    for idx, (cat, desc, c_base, c_low, rate, col, v_base, v_low, is_special) in enumerate(items):
+        y = 188 + idx * 80
+        
         # 標題與描述
-        rrect(ctx, 445, y - 22, 180, 32, 8); fillstroke(ctx, col, stroke=C['navy'], lw=2)
-        text(ctx, cat, 535, y - 4, 14, C['white'], bold=True)
-        text(ctx, desc, 640, y - 4, 13, (0.35, 0.40, 0.45), bold=False, align='l')
+        rrect(ctx, 445, y - 18, 155, 26, 7); fillstroke(ctx, col, stroke=C['navy'], lw=1.8)
+        text(ctx, cat, 522, y - 4, 12.5, C['white'], bold=True)
+        text(ctx, desc, 615, y - 4, 12, (0.25, 0.30, 0.35), bold=False, align='l')
 
         # 數值對照
-        text(ctx, f"基準: {c_base}", 450, y + 26, 14, (0.80, 0.30, 0.30), bold=True, align='l')
-        text(ctx, f"低碳: {c_low}", 570, y + 26, 14, (0.20, 0.60, 0.35), bold=True, align='l')
-        rrect(ctx, 690, y + 10, 85, 26, 6); fillstroke(ctx, (0.92, 0.96, 0.92), stroke=(0.20, 0.60, 0.35), lw=1.5)
-        text(ctx, rate, 732, y + 25, 13, (0.15, 0.50, 0.25), bold=True)
+        text(ctx, f"基準: {c_base}", 450, y + 21, 13, (0.80, 0.30, 0.30), bold=True, align='l')
+        text(ctx, f"低碳: {c_low}", 555, y + 21, 13, (0.20, 0.60, 0.35), bold=True, align='l')
+        
+        # 標籤
+        badge_w = 110 if is_special else 80
+        badge_bg = (0.98, 0.93, 0.82) if is_special else (0.92, 0.96, 0.92)
+        badge_border = (0.85, 0.55, 0.20) if is_special else (0.20, 0.60, 0.35)
+        badge_text_col = (0.75, 0.40, 0.10) if is_special else (0.15, 0.50, 0.25)
+        
+        rrect(ctx, 655, y + 6, badge_w, 24, 6)
+        fillstroke(ctx, badge_bg, stroke=badge_border, lw=1.5)
+        text(ctx, rate, 655 + badge_w / 2, y + 19, 11, badge_text_col, bold=True)
 
         # 比較橫條可視化
-        max_w = 420
-        # 基準條
+        max_w = 410
         bw1 = (v_base / 30.0) * max_w
-        rrect(ctx, 790, y + 10, bw1, 11, 4); fillstroke(ctx, (0.88, 0.45, 0.45), stroke=C['navy'], lw=1.5)
-        # 低碳條
+        rrect(ctx, 785, y + 6, bw1, 10, 4); fillstroke(ctx, (0.88, 0.45, 0.45), stroke=C['navy'], lw=1.2)
         bw2 = (v_low / 30.0) * max_w
-        rrect(ctx, 790, y + 25, bw2, 11, 4); fillstroke(ctx, (0.30, 0.70, 0.45), stroke=C['navy'], lw=1.5)
+        rrect(ctx, 785, y + 20, bw2, 10, 4); fillstroke(ctx, (0.30, 0.70, 0.45), stroke=C['navy'], lw=1.2)
+        
+        # 若為第 4 項，在長條圖旁加註解標籤
+        if is_special:
+            rrect(ctx, 815, y + 33, 275, 18, 5)
+            fillstroke(ctx, (0.95, 0.96, 0.98), stroke=(0.60, 0.70, 0.80), lw=1)
+            text(ctx, "說明：增2hr工坊機具電力，竹製品長期固碳代塑", 952, y + 43, 9.5, (0.30, 0.40, 0.50), bold=True)
 
-    # 碳盤專家小綠在右下角說明
-    xiaolu(ctx, 1170, 560, 0.38, 1.0, mouth=0.0, point=True)
+    # 下方：小綠專業解惑卡 (徹底化解視覺錯置，成為說帖亮點)
+    rrect(ctx, 445, 595, 645, 80, 12)
+    fillstroke(ctx, (0.96, 0.98, 0.96), stroke=(0.20, 0.60, 0.35), lw=2)
+    
+    # 小綠解惑標題徽章
+    rrect(ctx, 455, 605, 115, 22, 6)
+    fillstroke(ctx, (0.20, 0.60, 0.35), stroke=(0.15, 0.45, 0.25), lw=1)
+    text(ctx, "【小綠專家解析】", 512, 617, 11, C['white'], bold=True)
+    
+    text(ctx, "【為何第④項綠條微增？】", 580, 618, 11, (0.10, 0.40, 0.20), bold=True, align='l')
+    text(ctx, "本計畫將走馬看花升級為「2小時竹藝工坊深度手作」！雖略增機具耗電(+0.3kg)，", 460, 638, 11, (0.20, 0.30, 0.25), bold=False, align='l')
+    text(ctx, "但天然竹器具備長期固碳代塑效益，利潤留在地，全團遊程依然實質大幅減碳 -65.4%！", 460, 658, 11, (0.20, 0.30, 0.25), bold=False, align='l')
+
+    # 右下角小綠角色立繪
+    xiaolu(ctx, 1165, 560, 0.38, 1.0, mouth=0.0, point=True)
 
     # 外框
     ctx.rectangle(0, 0, W, H); ctx.set_source_rgb(*C['navy']); ctx.set_line_width(10); ctx.stroke()
