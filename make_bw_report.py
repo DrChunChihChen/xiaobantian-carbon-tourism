@@ -189,34 +189,21 @@ def add_bullet(text, bold_prefix=None):
     return p
 
 def add_callout_bw(text, title="重點摘要"):
-    tbl = doc.add_table(rows=1, cols=1)
-    tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
-    tbl.autofit = False
-    tbl.columns[0].width = Inches(6.5)
-    cell = tbl.cell(0, 0)
-    set_cell_margins(cell, top=100, bottom=100, left=150, right=150)
-    
-    borders_xml = f'''
-    <w:tcBorders {nsdecls("w")}>
-        <w:top w:val="none"/>
-        <w:left w:val="single" w:sz="18" w:space="0" w:color="000000"/>
-        <w:bottom w:val="none"/>
-        <w:right w:val="none"/>
-    </w:tcBorders>
-    '''
-    cell._tc.get_or_add_tcPr().append(parse_xml(borders_xml))
-    
-    cp = cell.paragraphs[0]
-    cp.paragraph_format.space_before = Pt(2)
-    cp.paragraph_format.space_after = Pt(2)
-    r1 = cp.add_run(f"【{title}】 ")
-    r1.font.bold = True
-    r1.font.size = Pt(9.5)
-    r1.font.color.rgb = RGBColor(0, 0, 0)
-    r2 = cp.add_run(text)
-    r2.font.size = Pt(9.5)
-    r2.font.color.rgb = RGBColor(0, 0, 0)
-    doc.add_paragraph().paragraph_format.space_after = Pt(2)
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(5)
+    p.paragraph_format.space_after = Pt(5)
+    p.paragraph_format.line_spacing = 1.25
+    if title:
+        r1 = p.add_run(f"【{title}】 ")
+        r1.font.name = "Arial"
+        r1.font.bold = True
+        r1.font.size = Pt(10)
+        r1.font.color.rgb = RGBColor(0, 0, 0)
+    run = p.add_run(text)
+    run.font.name = "Arial"
+    run.font.size = Pt(10)
+    run.font.color.rgb = RGBColor(0, 0, 0)
+    return p
 
 def add_figure(img_path, caption, width=Inches(5.8)):
     if os.path.exists(img_path):
@@ -330,11 +317,10 @@ for row_idx, r_data in enumerate(data_carbon, start=1):
 doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 add_callout_bw(
-    "【特別說明：為何第④項遊憩體驗數值微增 0.3 kg？】\n"
     "在傳統遊程中，旅客僅於路過時購買數十克的塑膠小吊飾；而小半天低碳遊程將活動升級為扎實的「2小時在地孟宗竹手作工坊」。"
     "雖然因工坊打磨機具電力使活動碳排略增 +0.3 kg，但天然孟宗竹器具備長期生質固碳與替代塑膠效益，且觀光收益 100% 留在地方社區。"
     "在體驗大幅升級的同時，全團人均碳排依然實質大降 -65.4%（省下 31.8 kg CO₂e），展現真實盤查、絕不漂綠之科學求真精神！",
-    title="遊憩體驗活動深化與碳排科學說明"
+    title="特別說明：為何第④項遊憩體驗數值微增 0.3 kg？"
 )
 
 add_callout_bw(
