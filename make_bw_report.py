@@ -16,14 +16,14 @@ for section in doc.sections:
     section.left_margin = Inches(1.0)
     section.right_margin = Inches(1.0)
     
-    # Header & Footer (Grayscale / B&W)
+    # Header & Footer (Pure B&W)
     header = section.header
     hp = header.paragraphs[0]
     hp.text = "國立臺中科技大學 大學社會責任實踐（USR）計畫 ｜ 子計畫H「智慧淨零農旅創生」成果報告"
     hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     hp.style.font.name = "Arial"
     hp.style.font.size = Pt(8.5)
-    hp.style.font.color.rgb = RGBColor(100, 100, 100)
+    hp.style.font.color.rgb = RGBColor(0, 0, 0)
 
     footer = section.footer
     fp = footer.paragraphs[0]
@@ -31,13 +31,9 @@ for section in doc.sections:
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
     fp.style.font.name = "Arial"
     fp.style.font.size = Pt(8.5)
-    fp.style.font.color.rgb = RGBColor(100, 100, 100)
+    fp.style.font.color.rgb = RGBColor(0, 0, 0)
 
-def set_cell_background(cell, fill_hex):
-    shading_xml = f'<w:shd {nsdecls("w")} w:fill="{fill_hex}"/>'
-    cell._tc.get_or_add_tcPr().append(parse_xml(shading_xml))
-
-def set_cell_margins(cell, top=120, bottom=120, left=150, right=150):
+def set_cell_margins(cell, top=100, bottom=100, left=120, right=120):
     tcPr = cell._tc.get_or_add_tcPr()
     tcMar = OxmlElement('w:tcMar')
     for m, val in [('top', top), ('bottom', bottom), ('left', left), ('right', right)]:
@@ -46,6 +42,20 @@ def set_cell_margins(cell, top=120, bottom=120, left=150, right=150):
         node.set(qn('w:type'), 'dxa')
         tcMar.append(node)
     tcPr.append(tcMar)
+
+def set_table_borders(table, color="000000", sz="4"):
+    tblPr = table._tbl.tblPr
+    borders = parse_xml(f'''
+        <w:tblBorders {nsdecls("w")}>
+            <w:top w:val="single" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:left w:val="single" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:bottom w:val="single" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:right w:val="single" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:insideH w:val="single" w:sz="{sz}" w:space="0" w:color="{color}"/>
+            <w:insideV w:val="single" w:sz="{sz}" w:space="0" w:color="{color}"/>
+        </w:tblBorders>
+    ''')
+    tblPr.append(borders)
 
 def add_title(text):
     p = doc.add_paragraph()
@@ -67,7 +77,7 @@ def add_subtitle(text):
     run.font.name = "Arial"
     run.font.size = Pt(12)
     run.font.bold = True
-    run.font.color.rgb = RGBColor(60, 60, 60)
+    run.font.color.rgb = RGBColor(0, 0, 0)
 
 def add_meta_box():
     tbl = doc.add_table(rows=1, cols=1)
@@ -75,15 +85,14 @@ def add_meta_box():
     tbl.autofit = False
     tbl.columns[0].width = Inches(6.5)
     cell = tbl.cell(0, 0)
-    set_cell_background(cell, "F9F9F9") # Neutral light gray
-    set_cell_margins(cell, 140, 140, 180, 180)
+    set_cell_margins(cell, 120, 120, 150, 150)
     
     borders_xml = f'''
     <w:tcBorders {nsdecls("w")}>
-        <w:top w:val="single" w:sz="12" w:space="0" w:color="000000"/>
-        <w:left w:val="single" w:sz="24" w:space="0" w:color="000000"/>
-        <w:bottom w:val="single" w:sz="12" w:space="0" w:color="000000"/>
-        <w:right w:val="single" w:sz="12" w:space="0" w:color="000000"/>
+        <w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/>
+        <w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/>
+        <w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/>
+        <w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/>
     </w:tcBorders>
     '''
     cell._tc.get_or_add_tcPr().append(parse_xml(borders_xml))
@@ -106,7 +115,7 @@ def add_meta_box():
         r1.font.color.rgb = RGBColor(0, 0, 0)
         r2 = p.add_run(val)
         r2.font.size = Pt(9.5)
-        r2.font.color.rgb = RGBColor(40, 40, 40)
+        r2.font.color.rgb = RGBColor(0, 0, 0)
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
 def add_h1(text):
@@ -130,7 +139,7 @@ def add_h2(text):
     run.font.name = "Arial"
     run.font.size = Pt(12)
     run.font.bold = True
-    run.font.color.rgb = RGBColor(30, 30, 30)
+    run.font.color.rgb = RGBColor(0, 0, 0)
     return p
 
 def add_h3(text):
@@ -142,7 +151,7 @@ def add_h3(text):
     run.font.name = "Arial"
     run.font.size = Pt(10.5)
     run.font.bold = True
-    run.font.color.rgb = RGBColor(50, 50, 50)
+    run.font.color.rgb = RGBColor(0, 0, 0)
     return p
 
 def add_body(text, bold_prefix=None):
@@ -159,7 +168,7 @@ def add_body(text, bold_prefix=None):
     run = p.add_run(text)
     run.font.name = "Arial"
     run.font.size = Pt(10)
-    run.font.color.rgb = RGBColor(40, 40, 40)
+    run.font.color.rgb = RGBColor(0, 0, 0)
     return p
 
 def add_bullet(text, bold_prefix=None):
@@ -176,7 +185,7 @@ def add_bullet(text, bold_prefix=None):
     run = p.add_run(text)
     run.font.name = "Arial"
     run.font.size = Pt(9.5)
-    run.font.color.rgb = RGBColor(40, 40, 40)
+    run.font.color.rgb = RGBColor(0, 0, 0)
     return p
 
 def add_callout_bw(text, title="重點摘要"):
@@ -185,13 +194,12 @@ def add_callout_bw(text, title="重點摘要"):
     tbl.autofit = False
     tbl.columns[0].width = Inches(6.5)
     cell = tbl.cell(0, 0)
-    set_cell_background(cell, "F5F5F5") # Pure neutral light gray
-    set_cell_margins(cell, top=120, bottom=120, left=180, right=180)
+    set_cell_margins(cell, top=100, bottom=100, left=150, right=150)
     
     borders_xml = f'''
     <w:tcBorders {nsdecls("w")}>
         <w:top w:val="none"/>
-        <w:left w:val="single" w:sz="24" w:space="0" w:color="000000"/>
+        <w:left w:val="single" w:sz="18" w:space="0" w:color="000000"/>
         <w:bottom w:val="none"/>
         <w:right w:val="none"/>
     </w:tcBorders>
@@ -207,7 +215,7 @@ def add_callout_bw(text, title="重點摘要"):
     r1.font.color.rgb = RGBColor(0, 0, 0)
     r2 = cp.add_run(text)
     r2.font.size = Pt(9.5)
-    r2.font.color.rgb = RGBColor(40, 40, 40)
+    r2.font.color.rgb = RGBColor(0, 0, 0)
     doc.add_paragraph().paragraph_format.space_after = Pt(2)
 
 def add_figure(img_path, caption, width=Inches(5.8)):
@@ -227,7 +235,7 @@ def add_figure(img_path, caption, width=Inches(5.8)):
         c_run.font.name = "Arial"
         c_run.font.size = Pt(9)
         c_run.font.bold = True
-        c_run.font.color.rgb = RGBColor(80, 80, 80)
+        c_run.font.color.rgb = RGBColor(0, 0, 0)
 
 print("Compiling Black & White report...")
 
@@ -275,10 +283,11 @@ add_body("依觀光署規範，本計畫將遊程拆解為五大服務構面，�
 add_h2("三、兩天一夜示範遊程實測盤查數據比對分析")
 add_body("本計畫以 20 人團體參與台中至小半天往返（總路程約 240 公里）兩天一夜經典慢活遊程為實測標的，將「傳統基準遊程（Baseline）」與「小半天低碳遊程（Low-Carbon）」每位旅客各項活動數據與排放量逐項比對：")
 
-# Table in B&W
+# Table in Pure B&W (No Shading, Clean Grid)
 tbl_carbon = doc.add_table(rows=7, cols=6)
 tbl_carbon.alignment = WD_TABLE_ALIGNMENT.CENTER
 tbl_carbon.autofit = False
+set_table_borders(tbl_carbon, color="000000", sz="4")
 col_w = [Inches(1.1), Inches(1.8), Inches(0.8), Inches(1.8), Inches(0.8), Inches(0.8)]
 for r in tbl_carbon.rows:
     for i, w in enumerate(col_w):
@@ -287,14 +296,13 @@ for r in tbl_carbon.rows:
 hdrs = ["服務構面", "傳統基準遊程 (Baseline) 每人數據", "基準碳排", "小半天低碳遊程 (Low-Carbon) 每人數據", "低碳碳排", "減碳成效"]
 for i, h in enumerate(hdrs):
     c = tbl_carbon.cell(0, i)
-    set_cell_background(c, "262626") # Dark charcoal/black
-    set_cell_margins(c, 100, 100, 80, 80)
+    set_cell_margins(c, 90, 90, 70, 70)
     p = c.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = p.add_run(h)
     run.font.bold = True
     run.font.size = Pt(8.5)
-    run.font.color.rgb = RGBColor(255, 255, 255)
+    run.font.color.rgb = RGBColor(0, 0, 0)
 
 data_carbon = [
     ("① 交通運輸", "自駕車 240km 每人分攤 8.5L 汽油 + 4 瓶瓶裝水", "28.5 kg", "台灣好行大巴共乘 (每人 2.8L 柴油) + 自備保溫杯", "9.6 kg", "-66.3%"),
@@ -307,19 +315,17 @@ data_carbon = [
 
 for row_idx, r_data in enumerate(data_carbon, start=1):
     is_tot = (row_idx == 6)
-    bg = "EBEBEB" if is_tot else ("F9F9F9" if row_idx % 2 == 0 else "FFFFFF")
     for col_idx, val in enumerate(r_data):
         c = tbl_carbon.cell(row_idx, col_idx)
-        set_cell_background(c, bg)
-        set_cell_margins(c, 80, 80, 70, 70)
+        set_cell_margins(c, 70, 70, 60, 60)
         p = c.paragraphs[0]
         if col_idx in (2, 4, 5):
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run = p.add_run(val)
         run.font.size = Pt(8.5)
+        run.font.color.rgb = RGBColor(0, 0, 0)
         if is_tot:
             run.font.bold = True
-            run.font.color.rgb = RGBColor(0, 0, 0)
 
 doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
@@ -459,6 +465,7 @@ add_body("對照本校 USR 計畫書（表12）所訂定之年度管考績效目
 tbl_perf = doc.add_table(rows=7, cols=5)
 tbl_perf.alignment = WD_TABLE_ALIGNMENT.CENTER
 tbl_perf.autofit = False
+set_table_borders(tbl_perf, color="000000", sz="4")
 perf_w = [Inches(1.2), Inches(2.2), Inches(0.8), Inches(1.5), Inches(0.8)]
 for r in tbl_perf.rows:
     for i, w in enumerate(perf_w):
@@ -467,14 +474,13 @@ for r in tbl_perf.rows:
 p_hdrs = ["子計畫代號", "原訂績效指標項目", "原訂目標", "實際執行成果", "達成率"]
 for i, h in enumerate(p_hdrs):
     c = tbl_perf.cell(0, i)
-    set_cell_background(c, "262626")
-    set_cell_margins(c, 100, 100, 80, 80)
+    set_cell_margins(c, 90, 90, 70, 70)
     p = c.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = p.add_run(h)
     run.font.bold = True
     run.font.size = Pt(8.5)
-    run.font.color.rgb = RGBColor(255, 255, 255)
+    run.font.color.rgb = RGBColor(0, 0, 0)
 
 perf_data = [
     ("H 智慧淨零農旅創生", "協助小半天場域進行現有遊程碳盤查", "1 式", "完成 20 人兩天一夜五大構面實測盤查清冊", "100%"),
@@ -486,16 +492,15 @@ perf_data = [
 ]
 
 for row_idx, r_data in enumerate(perf_data, start=1):
-    bg = "F9F9F9" if row_idx % 2 == 0 else "FFFFFF"
     for col_idx, val in enumerate(r_data):
         c = tbl_perf.cell(row_idx, col_idx)
-        set_cell_background(c, bg)
-        set_cell_margins(c, 80, 80, 70, 70)
+        set_cell_margins(c, 70, 70, 60, 60)
         p = c.paragraphs[0]
         if col_idx in (2, 4):
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run = p.add_run(val)
         run.font.size = Pt(8.5)
+        run.font.color.rgb = RGBColor(0, 0, 0)
         if col_idx == 4:
             run.font.bold = True
 
